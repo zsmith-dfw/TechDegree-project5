@@ -2,10 +2,10 @@ const gallery = document.getElementById("gallery");
 const body = document.querySelector("body");
 
 // ------------------------------------------
-//  FETCH FUNCTION
+//  FETCH FUNCTION TO GET 12 USERS
 // ------------------------------------------
 
-fetch("https://randomuser.me/api/?results=12")
+fetch("https://randomuser.me/api/?results=12&nat=us")
   .then((response) => response.json())
   .then((data) => generateCards(data.results));
 
@@ -38,7 +38,6 @@ function generateCards(data) {
     const cardLocation = document.createElement("p");
     cardLocation.className = "card-text";
     cardLocation.innerHTML = `${employee.location.city}, ${employee.location.state}`;
-
     cardInfo.innerHTML = `<h3>${employee.name.first} ${employee.name.last}</h3>`;
 
     card.appendChild(imageContainer);
@@ -94,9 +93,7 @@ function generateCards(data) {
       modalData.appendChild(modalTextCity);
       modalData.appendChild(hr);
 
-      // ------------------------------------------
-      //  DATE FORMATTING
-      // ------------------------------------------
+      //  DATE FORMATTING TO INTL STANDARD OF DD-MM-YYYY, SNIPPET FROM STACKOVERFLOW.COM AND MODIFIED FOR THIS PROJECT
 
       let date = new Date(employee.dob.date);
       date = date.toISOString().slice(0, 10);
@@ -109,13 +106,20 @@ function generateCards(data) {
         return day + "/" + month + "/" + year;
       }
 
+      //  CELL PHONE FORMATTING FOR US NUMBERS, SNIPPET FROM STACKOVERFLOW.COM AND MODIFIED FOR THIS PROJECT
+
+      let cellPhone = `${employee.cell}`;
+      cellPhone = cellPhone
+        .replace(/\D+/g, "")
+        .replace(/(\d{3})(\d{3})(\d{4})/, "($1) $2-$3");
+
       // ------------------------------------------
       //  MODAL - AFTER HORIZONTAL RULE
       // ------------------------------------------
 
       const phone = document.createElement("p");
       phone.className = "modal-text";
-      phone.innerHTML = `${employee.phone}`;
+      phone.innerHTML = `${cellPhone}`;
       const address = document.createElement("p");
       address.className = "modal-text";
       address.innerHTML = `${employee.location.street.number} ${employee.location.street.name} ${employee.location.city}, ${employee.location.state} ${employee.location.postcode}`;
