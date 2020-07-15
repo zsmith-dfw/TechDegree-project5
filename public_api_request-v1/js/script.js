@@ -103,7 +103,7 @@ function generateCards(data) {
           year = newDate[0].substring(0, 4),
           month = newDate[1],
           day = newDate[2];
-        return day + "/" + month + "/" + year;
+        return month + "/" + day + "/" + year;
       }
 
       //  CELL PHONE FORMATTING FOR US NUMBERS, SNIPPET FROM STACKOVERFLOW.COM AND MODIFIED FOR THIS PROJECT
